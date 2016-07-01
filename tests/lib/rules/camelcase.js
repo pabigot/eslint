@@ -109,6 +109,14 @@ ruleTester.run("camelcase", rule, {
         {
             code: "camelCase_kHz = 0;",
             options: [{allowedSuffixes: [{regex: {pattern: "_[kMG]?Hz"}}]}]
+        },
+        {
+            code: "var_args = false;",
+            options: [{exceptions: ["var_args"]}]
+        },
+        {
+            code: "Just_IgNore_Me = true;",
+            options: [{exceptions: [{regex: {pattern: "ignore_", flags: "i"}}]}]
         }
     ],
     invalid: [
@@ -288,6 +296,16 @@ ruleTester.run("camelcase", rule, {
             errors: [
                 {
                     message: "Identifier 'camelCase_kHzx' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "xvar_args = false;",
+            options: [{exceptions: ["var_args"]}],
+            errors: [
+                {
+                    message: "Identifier 'xvar_args' is not in camel case.",
                     type: "Identifier"
                 }
             ]
