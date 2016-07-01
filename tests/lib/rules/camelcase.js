@@ -65,6 +65,50 @@ ruleTester.run("camelcase", rule, {
             code: "var { category_id: category } = query;",
             parserOptions: { ecmaVersion: 6 },
             options: [{properties: "never"}]
+        },
+        {
+            code: "id = 0;",
+            options: [{allowedPrefixes: ["opt_"]}]
+        },
+        {
+            code: "opt_camelCase = 0;",
+            options: [{allowedPrefixes: ["opt_"]}]
+        },
+        {
+            code: "_opt_camelCase = 0;",
+            options: [{allowedPrefixes: ["opt_"]}]
+        },
+        {
+            code: "opt_camelCase_ = 0;",
+            options: [{allowedPrefixes: ["opt_"]}]
+        },
+        {
+            code: "id = 0;",
+            options: [{allowedPrefixes: [{regex: {pattern: "pfx\\d+_"}}]}]
+        },
+        {
+            code: "pfx23_camelCase = 0;",
+            options: [{allowedPrefixes: [{regex: {pattern: "pfx\\d+_"}}]}]
+        },
+        {
+            code: "iGnOrE_camelCase = 0;",
+            options: [{allowedPrefixes: [{regex: {pattern: "ignore_", flags: "i"}}]}]
+        },
+        {
+            code: "id = 0;",
+            options: [{allowedSuffixes: ["_ms"]}]
+        },
+        {
+            code: "camelCase_ms = 0;",
+            options: [{allowedSuffixes: ["_ms"]}]
+        },
+        {
+            code: "id = 0;",
+            options: [{allowedSuffixes: [{regex: {pattern: "_[kMG]?Hz"}}]}]
+        },
+        {
+            code: "camelCase_kHz = 0;",
+            options: [{allowedSuffixes: [{regex: {pattern: "_[kMG]?Hz"}}]}]
         }
     ],
     invalid: [
@@ -204,6 +248,46 @@ ruleTester.run("camelcase", rule, {
             errors: [
                 {
                     message: "Identifier 'category_id' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "xopt_camelCase = 0;",
+            options: [{allowedPrefixes: ["opt_"]}],
+            errors: [
+                {
+                    message: "Identifier 'xopt_camelCase' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "xpfx23_camelCase = 0;",
+            options: [{allowedPrefixes: [{regex: {pattern: "pfx\\d+_"}}]}],
+            errors: [
+                {
+                    message: "Identifier 'xpfx23_camelCase' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "camelCase_msx = 0;",
+            options: [{allowedSuffixes: ["_ms"]}],
+            errors: [
+                {
+                    message: "Identifier 'camelCase_msx' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "camelCase_kHzx = 0;",
+            options: [{allowedSuffixes: [{regex: {pattern: "_[kMG]?Hz"}}]}],
+            errors: [
+                {
+                    message: "Identifier 'camelCase_kHzx' is not in camel case.",
                     type: "Identifier"
                 }
             ]
